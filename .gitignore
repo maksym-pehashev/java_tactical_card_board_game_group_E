@@ -1,0 +1,21 @@
+# IGNORE EVERYTHING
+*
+
+# KEEP REQUIRED ROOT FILES
+!.gitignore
+!build.sbt
+
+!project/
+!project/build.properties
+!project/plugins.sbt
+
+# KEEP WORKING DIRECTORIES
+!app/
+!app/**
+
+!conf/
+!conf/**
+
+# OPTIONAL
+#!public/
+#!public/**
