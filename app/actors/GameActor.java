@@ -86,8 +86,11 @@ public class GameActor extends AbstractActor {
 	public Receive createReceive() {
 		return receiveBuilder()
 				.match(JsonNode.class, message -> {
-					System.out.println(message);
-					processMessage(message.get("messagetype").asText(), message);
+					// UI message types can vary in casing; normalize to lowercase
+					String messageType = (message != null && message.has("messagetype"))
+							? message.get("messagetype").asText("")
+							: "";
+					processMessage(messageType.toLowerCase(), message);
 				}).build();
 	}
 
