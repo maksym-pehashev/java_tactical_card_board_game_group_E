@@ -1,5 +1,8 @@
 package structures.basic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A basic representation of of the Player. A player
  * has health and mana.
@@ -11,6 +14,9 @@ public class Player {
 
 	int health;
 	int mana;
+
+	List<Card> deck= new  ArrayList<>();
+	List<Card> hand= new  ArrayList<>();
 	
 	public Player() {
 		super();
