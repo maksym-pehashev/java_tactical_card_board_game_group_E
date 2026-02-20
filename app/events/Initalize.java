@@ -69,7 +69,7 @@ public class Initalize implements EventProcessor {
         gs.aiAvatar = spawnAvatar(out, gs, AI_AVATAR_ID, AI_AVATAR_X, AI_AVATAR_Y,
                 "conf/gameconfs/avatars/avatar2.json", 20, 2);
 
-        // Mark initialised (оставляю как у тебя — часто тесты завязаны на это поле)
+        // Mark initialised 
         gs.gameInitalised = true;
     }
 
@@ -91,7 +91,6 @@ public class Initalize implements EventProcessor {
         gs.unitAtk.put(id, atk);
         gs.canMove.put(id, true);
         gs.canAttack.put(id, true);
-
         return avatar;
     }
 
