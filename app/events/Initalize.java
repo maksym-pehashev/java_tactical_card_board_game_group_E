@@ -107,8 +107,8 @@ public class Initalize implements EventProcessor {
             gs.player2.getHand().add(topCardAI);
             }}
 
-        // Mark initialised (оставляю как у тебя — часто тесты завязаны на это поле)
-        gs.gameInitalised = true;   
+        // Mark initialised 
+        gs.gameInitalised = true;
     }
 
     private Unit spawnAvatar(ActorRef out, GameState gs, int id, int x, int y, String conf, int hp, int atk) {
@@ -129,7 +129,6 @@ public class Initalize implements EventProcessor {
         gs.unitAtk.put(id, atk);
         gs.canMove.put(id, true);
         gs.canAttack.put(id, true);
-
         return avatar;
     }
     

@@ -16,6 +16,8 @@
 !conf/
 !conf/**
 
+*.log
+
 # OPTIONAL
 #!public/
 #!public/**
