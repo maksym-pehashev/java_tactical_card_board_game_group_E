@@ -1,5 +1,7 @@
 package events;
 
+import java.util.List;
+
 import com.fasterxml.jackson.databind.JsonNode;
 
 import akka.actor.ActorRef;
@@ -10,6 +12,7 @@ import structures.basic.Player;
 import structures.basic.Tile;
 import structures.basic.Unit;
 import utils.BasicObjectBuilders;
+import utils.OrderedCardLoader;
 
 public class Initalize implements EventProcessor {
     private static final int BOARD_WIDTH = 9;
@@ -98,4 +101,11 @@ public class Initalize implements EventProcessor {
     private void sleep(int ms) {
         try { Thread.sleep(ms); } catch (Exception e) {}
     }
+
+    // load all cards into player1's and player2's deck
+    List<Card> deck1=OrderedCardLoader.getPlayer1Cards(1);
+    gs.player1.getDeck().addAll(deck1);
+
+    List<Card> deck2=OrderedCardLoader.getPlayer1Cards(1);
+    gs.player2.getDeck().addAll(deck2);
 }
