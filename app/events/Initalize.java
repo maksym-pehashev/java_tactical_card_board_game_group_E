@@ -120,11 +120,19 @@ public class Initalize implements EventProcessor {
             BasicCommands.addPlayer1Notification(out, "Sorry, your deck is empty. You lose the game.", 2);
             break;
         }
+        if(gs.player2.getDeck().isEmpty()){
+            gs.gameOver=True;
+            gs.winner=gs.player1;
+            break;
+        }
     // draw the first card of the deck into hand
         else{
         Card topCard=gs.player1.getDeck().remove(0)
         gs.player1.getHand().add(topCard);
         BasicCommands.drawCard(out, topCard, i + 1, 0);
+
+        Card topCardAI=gs.player2.getDeck().remove(0)
+        gs.player2.getHand().add(topCardAI);
     }
     }
 }
