@@ -94,7 +94,7 @@ public class Initalize implements EventProcessor {
             if(gs.player2.getDeck().isEmpty()){
                 gs.gameOver=true;
                 gs.winner="player1";
-                BasicCommands.addPlayer1Notification(out,"Congratulation!! You win the game.", 2)
+                BasicCommands.addPlayer1Notification(out,"Congratulation!! You win the game.", 2);
                 break;
             }
             // draw the first card of the deck into hand
@@ -136,6 +136,4 @@ public class Initalize implements EventProcessor {
         try { Thread.sleep(ms); } catch (Exception e) {}
     }
     
-    }
-        
 }
