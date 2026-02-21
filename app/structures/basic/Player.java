@@ -14,7 +14,8 @@ public class Player {
 
 	int health;
 	int mana;
-
+	
+	// player should have its own hand card and deck card
 	List<Card> deck= new  ArrayList<>();
 	List<Card> hand= new  ArrayList<>();
 	
@@ -40,7 +41,11 @@ public class Player {
 	public void setMana(int mana) {
 		this.mana = mana;
 	}
-	
-	
+	// other class can use this method to get player's hand cards and deck cards
+	public List<Card> getDeck(){
+		return deck;}
+	public List<Card> getHand(){
+		return hand;
+	}
 	
 }
