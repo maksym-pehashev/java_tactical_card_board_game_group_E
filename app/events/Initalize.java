@@ -2,6 +2,8 @@ package events;
 
 import java.util.List;
 
+import javax.swing.plaf.TreeUI;
+
 import com.fasterxml.jackson.databind.JsonNode;
 
 import akka.actor.ActorRef;
@@ -108,4 +110,21 @@ public class Initalize implements EventProcessor {
 
     List<Card> deck2=OrderedCardLoader.getPlayer1Cards(1);
     gs.player2.getDeck().addAll(deck2);
+
+    // draw 3 inititial card into player's hand
+    for (int i=0; i<3;i++){
+        if(gs.player1.getDeck().isEmpty()){
+            // if deck is empty, player lose the game
+            gs.gameOver=True;
+            gs.winner=gs.player2;
+            BasicCommands.addPlayer1Notification(out, "Sorry, your deck is empty. You lose the game.", 2);
+            break;
+        }
+    // draw the first card of the deck into hand
+        else{
+        Card topCard=gs.player1.getDeck().remove(0)
+        gs.player1.getHand().add(topCard);
+        BasicCommands.drawCard(out, topCard, i + 1, 0);
+    }
+    }
 }
