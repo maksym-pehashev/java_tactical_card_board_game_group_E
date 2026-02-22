@@ -76,11 +76,13 @@ public class Initalize implements EventProcessor {
                 "conf/gameconfs/avatars/avatar2.json", 20, 2);
         
         // load all cards into player1's and player2's deck
-        List<Card> deck1=OrderedCardLoader.getPlayer1Cards(1);
+        List<Card> deck1=OrderedCardLoader.getPlayer1Cards(2);
         gs.player1.getDeck().addAll(deck1);
+        java.util.Collections.shuffle(gs.player1.getDeck());
 
-        List<Card> deck2=OrderedCardLoader.getPlayer2Cards(1);
+        List<Card> deck2=OrderedCardLoader.getPlayer2Cards(2);
         gs.player2.getDeck().addAll(deck2);
+        java.util.Collections.shuffle(gs.player1.getDeck());
 
         // draw 3 inititial card into player's hand
         for (int i=0; i<3;i++){
