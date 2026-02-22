@@ -82,7 +82,7 @@ public class Initalize implements EventProcessor {
 
         List<Card> deck2=OrderedCardLoader.getPlayer2Cards(2);
         gs.player2.getDeck().addAll(deck2);
-        java.util.Collections.shuffle(gs.player1.getDeck());
+        java.util.Collections.shuffle(gs.player2.getDeck());
 
         // draw 3 inititial card into player's hand
         for (int i=0; i<3;i++){
