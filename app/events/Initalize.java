@@ -75,12 +75,18 @@ public class Initalize implements EventProcessor {
         gs.aiAvatar = spawnAvatar(out, gs, AI_AVATAR_ID, AI_AVATAR_X, AI_AVATAR_Y,
                 "conf/gameconfs/avatars/avatar2.json", 20, 2);
         
-        // load all cards into player1's and player2's deck
-        List<Card> deck1=OrderedCardLoader.getPlayer1Cards(1);
+       
+        // Load 2 copies of cards into player1's and player2's decks
+        List<Card> deck1 = OrderedCardLoader.getPlayer1Cards(2);
         gs.player1.getDeck().addAll(deck1);
 
-        List<Card> deck2=OrderedCardLoader.getPlayer2Cards(1);
+        List<Card> deck2 = OrderedCardLoader.getPlayer2Cards(2);
         gs.player2.getDeck().addAll(deck2);
+
+        // Shuffle both decks to ensure a random starting hand
+        java.util.Collections.shuffle(gs.player1.getDeck());
+        java.util.Collections.shuffle(gs.player2.getDeck());
+
 
         // draw 3 inititial card into player's hand
         for (int i=0; i<3;i++){
