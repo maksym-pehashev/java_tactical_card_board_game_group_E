@@ -55,7 +55,7 @@ public class GameActor extends AbstractActor {
 		eventProcessors = new HashMap<String,EventProcessor>();
 		eventProcessors.put("initalize", new Initalize());
 		eventProcessors.put("heartbeat", new Heartbeat());
-		eventProcessors.put("unitMoving", new UnitMoving());
+		eventProcessors.put("unitmoving", new UnitMoving());
 		eventProcessors.put("unitstopped", new UnitStopped());
 		eventProcessors.put("tileclicked", new TileClicked());
 		eventProcessors.put("cardclicked", new CardClicked());
