@@ -11,6 +11,7 @@ import commands.BasicCommands;
 import structures.GameState;
 import structures.basic.Board;
 import structures.basic.Card;
+import structures.basic.CardFactory;
 import structures.basic.Player;
 import structures.basic.Tile;
 import structures.basic.Unit;
@@ -78,11 +79,15 @@ public class Initalize implements EventProcessor {
        
         // Load 2 copies of cards into player1's and player2's decks
         List<Card> deck1 = OrderedCardLoader.getPlayer1Cards(2);
-        gs.player1.getDeck().addAll(deck1);
+        for (Card c : deck1) {
+            gs.player1.getDeck().add(CardFactory.toTypedCard(c));
+        }
         gs.player1.getDeck().shuffle();
 
         List<Card> deck2 = OrderedCardLoader.getPlayer2Cards(2);
-        gs.player2.getDeck().addAll(deck2);
+        for (Card c : deck2) {
+            gs.player2.getDeck().add(CardFactory.toTypedCard(c));
+        }
         gs.player2.getDeck().shuffle();
 
 
