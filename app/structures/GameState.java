@@ -20,6 +20,7 @@ public class GameState {
 	public boolean gameOver = false;
 	public String winner = null;   // "human" / "ai" / null
 	public boolean humanTurn = true;
+	public boolean aiTurnPending = false;  //AI placeholder: run once on next heartbeat
 
 	// Turn info
 	public int turnNumber = 0;

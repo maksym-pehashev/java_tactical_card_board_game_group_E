@@ -22,7 +22,16 @@ public class Heartbeat implements EventProcessor{
 
 	@Override
 	public void processEvent(ActorRef out, GameState gameState, JsonNode message) {
-		
+		// AI placeholder: if it is AI's turn and pending is true, do nothing and end AI turn directly.
+		if (!gameState.humanTurn && gameState.aiTurnPending){System.out.println("[Heartbeat] AI placeholder executing -> ending AI return directly");
+		// clear pending first to prevent repeating every heartbeat
+		gameState.aiTurnPending = false;
+		// clear any stale interaction state before switching back
+		gameState.clearSelectionAndHighlights();
+		// Switch back to human
+		gameState.humanTurn = true;
+		System.out.println("[Heartbeat] Switched back to human turn");
+		}
 	}
 
 }
