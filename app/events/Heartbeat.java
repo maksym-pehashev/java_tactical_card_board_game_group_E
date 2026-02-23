@@ -30,7 +30,7 @@ public class Heartbeat implements EventProcessor{
 		gameState.clearSelectionAndHighlights();
 		// Switch back to human
 		gameState.humanTurn = true;
-		System.out.println("[Heartbeat] Switched back to human turn")
+		System.out.println("[Heartbeat] Switched back to human turn");
 		}
 	}
 
