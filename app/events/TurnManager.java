@@ -19,6 +19,7 @@ public final class TurnManager {
         }
 
         // UI update will be wired once we plug in your existing BasicCommands call
+        gs.humanCurrentMana = gs.humanMaxMana;
     }
 
     public static void endHumanTurn(ActorRef out, GameState gs) {
