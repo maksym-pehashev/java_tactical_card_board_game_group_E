@@ -48,4 +48,17 @@ public final class Rules {
 	public static List<Tile> applyKeywordRestrictions(GameState gs, Unit unit, List<Tile> candidates) {
 		return candidates == null ? Collections.emptyList() : candidates;
 	}
+
+	// API stubs - used by processors
+	public static List<Tile> getValidMoveTiles(GameState gs, int unitId) {
+		return Collections.emptyList();
+	}
+
+	public static boolean isValidMove(GameState gs, int unitId, Tile from, Tile to) {
+		return false;
+	}
+
+	public static List<Unit> getValidAttackTargets(GameState gs, int unitId) {
+		return Collections.emptyList();
+	}
 }
