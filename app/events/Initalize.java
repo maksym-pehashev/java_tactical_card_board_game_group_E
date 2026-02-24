@@ -11,6 +11,7 @@ import commands.BasicCommands;
 import structures.GameState;
 import structures.basic.Board;
 import structures.basic.Card;
+import structures.basic.CardFactory;
 import structures.basic.Player;
 import structures.basic.Tile;
 import structures.basic.Unit;
@@ -78,16 +79,16 @@ public class Initalize implements EventProcessor {
        
         // Load 2 copies of cards into player1's and player2's decks
         List<Card> deck1 = OrderedCardLoader.getPlayer1Cards(2);
-        gs.player1.getDeck().addAll(deck1);
-        java.util.Collections.shuffle(gs.player1.getDeck());
+        for (Card c : deck1) {
+            gs.player1.getDeck().add(CardFactory.toTypedCard(c));
+        }
+        gs.player1.getDeck().shuffle();
 
         List<Card> deck2 = OrderedCardLoader.getPlayer2Cards(2);
-        gs.player2.getDeck().addAll(deck2);
-        java.util.Collections.shuffle(gs.player2.getDeck());
-
-        // Shuffle both decks to ensure a random starting hand
-        java.util.Collections.shuffle(gs.player1.getDeck());
-        java.util.Collections.shuffle(gs.player2.getDeck());
+        for (Card c : deck2) {
+            gs.player2.getDeck().add(CardFactory.toTypedCard(c));
+        }
+        gs.player2.getDeck().shuffle();
 
 
         // draw 3 inititial card into player's hand
@@ -107,16 +108,29 @@ public class Initalize implements EventProcessor {
             }
             // draw the first card of the deck into hand
             else{
-            Card topCard=gs.player1.getDeck().remove(0);
+            Card topCard=gs.player1.getDeck().draw();
+            if (topCard == null){
+                gs.gameOver = true;
+                gs.winner = "player2";
+                BasicCommands.addPlayer1Notification(out,"Sorry, your deck is empty. You lose the game.", 2);
+                break;
+            }
             gs.player1.getHand().add(topCard);
             BasicCommands.drawCard(out, topCard, i + 1, 0);
-            // AI also draw card but don't need visualize.
-            Card topCardAI=gs.player2.getDeck().remove(0);
-            gs.player2.getHand().add(topCardAI);
-            }}
 
-        // Mark initialised 
-        gs.gameInitalised = true;
+            // AI also draw card but don't need visualize.
+            Card topCardAI = gs.player2.getDeck().draw();
+            if (topCardAI == null) {
+                gs.gameOver = true;
+                gs.winner = "player1";
+                BasicCommands.addPlayer1Notification(out, "Congratulation!! You win the game.", 2);
+                break;
+            }
+            gs.player2.getHand().add(topCardAI);
+        }
+    }
+    // Mark initialised 
+    gs.gameInitalised = true;
     }
 
     private Unit spawnAvatar(ActorRef out, GameState gs, int id, int x, int y, String conf, int hp, int atk) {
@@ -143,6 +157,4 @@ public class Initalize implements EventProcessor {
     private void sleep(int ms) {
         try { Thread.sleep(ms); } catch (Exception e) {}
     }
-    
-    }
-        
+}
