@@ -2,8 +2,6 @@ package events;
 
 import java.util.List;
 
-import javax.swing.plaf.TreeUI;
-
 import com.fasterxml.jackson.databind.JsonNode;
 
 import akka.actor.ActorRef;
@@ -90,47 +88,28 @@ public class Initalize implements EventProcessor {
         }
         gs.player2.getDeck().shuffle();
 
+        // Draw 3 initial cards (no defeat logic in Initialize)
+        for (int i = 0; i < 3; i++) {
 
-        // draw 3 inititial card into player's hand
-        for (int i=0; i<3;i++){
-            if(gs.player1.getDeck().isEmpty()){
-            // if deck is empty, player lose the game
-                gs.gameOver=true;
-                gs.winner="player2";
-                BasicCommands.addPlayer1Notification(out,"Sorry, your deck is empty. You lose the game.", 2);
-                break;
+            // Human draw + render
+            Card humanCard = gs.player1.getDeck().draw();
+            if (humanCard != null) {
+                gs.player1.getHand().add(humanCard);
+                BasicCommands.drawCard(out, humanCard, i + 1, 0);
             }
-            if(gs.player2.getDeck().isEmpty()){
-                gs.gameOver=true;
-                gs.winner="player1";
-                BasicCommands.addPlayer1Notification(out,"Congratulation!! You win the game.", 2);
-                break;
-            }
-            // draw the first card of the deck into hand
-            else{
-            Card topCard=gs.player1.getDeck().draw();
-            if (topCard == null){
-                gs.gameOver = true;
-                gs.winner = "player2";
-                BasicCommands.addPlayer1Notification(out,"Sorry, your deck is empty. You lose the game.", 2);
-                break;
-            }
-            gs.player1.getHand().add(topCard);
-            BasicCommands.drawCard(out, topCard, i + 1, 0);
 
-            // AI also draw card but don't need visualize.
-            Card topCardAI = gs.player2.getDeck().draw();
-            if (topCardAI == null) {
-                gs.gameOver = true;
-                gs.winner = "player1";
-                BasicCommands.addPlayer1Notification(out, "Congratulation!! You win the game.", 2);
-                break;
+            // AI draw (no render)
+            Card aiCard = gs.player2.getDeck().draw();
+            if (aiCard != null) {
+                gs.player2.getHand().add(aiCard);
             }
-            gs.player2.getHand().add(topCardAI);
         }
-    }
-    // Mark initialised 
-    gs.gameInitalised = true;
+        // Mark initialised, set up the health and mana in both player_1 and player_2 panels
+        BasicCommands.setPlayer1Health(out, gs.player1);
+        BasicCommands.setPlayer2Health(out, gs.player2);
+        BasicCommands.setPlayer1Mana(out, gs.player1);
+        BasicCommands.setPlayer2Mana(out, gs.player2);
+        gs.gameInitalised = true;
     }
 
     private Unit spawnAvatar(ActorRef out, GameState gs, int id, int x, int y, String conf, int hp, int atk) {
