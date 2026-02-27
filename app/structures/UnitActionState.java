@@ -15,11 +15,12 @@ public class UnitActionState {
     public UnitActionState(){
         this.canMove=false;
         this.canAttack=false;
+// if some unit or spell can make another unit cannot move or attack, can set exhausted to true.
         this.exhausted=false;
         this.summoningSickness=true;
     }
 // during the next turn unit state change, can move and attack
-    pubilc void restForNewTurn(){
+    public void restForNewTurn(){
         this.summoningSickness=false;
         this.exhausted=false;
         this.canMove=true;
