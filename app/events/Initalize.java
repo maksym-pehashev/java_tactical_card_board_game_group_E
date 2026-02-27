@@ -15,6 +15,7 @@ import structures.basic.Tile;
 import structures.basic.Unit;
 import utils.BasicObjectBuilders;
 import utils.OrderedCardLoader;
+import utils.StaticConfFiles;
 
 public class Initalize implements EventProcessor {
     private static final int BOARD_WIDTH = 9;
@@ -44,16 +45,15 @@ public class Initalize implements EventProcessor {
         gs.humanTurn = true;
         gs.turnNumber = 1;
 
-        gs.player1 = new Player(20, 0);
-        gs.player2 = new Player(20, 0);
-
         gs.humanMaxMana = 2;
         gs.aiMaxMana = 2;
         gs.humanCurrentMana = 2;
         gs.aiCurrentMana = 2;
 
-        gs.player1.setMana(gs.humanCurrentMana);
-        gs.player2.setMana(gs.aiCurrentMana);
+
+        gs.player1 = new Player(20, gs.humanCurrentMana);
+        gs.player2 = new Player(20, gs.aiCurrentMana);
+
 
         gs.clearSelectionAndHighlights();
         
@@ -70,10 +70,10 @@ public class Initalize implements EventProcessor {
         // Spawn avatars
         // give human avatar and ai avatar a initial state then store states into gamestate
         gs.humanAvatar = spawnAvatar(out, gs, HUMAN_AVATAR_ID, HUMAN_AVATAR_X, HUMAN_AVATAR_Y,
-                "conf/gameconfs/avatars/avatar1.json", 20, 2);
+                 StaticConfFiles.humanAvatar, 20, 2);
         
         gs.aiAvatar = spawnAvatar(out, gs, AI_AVATAR_ID, AI_AVATAR_X, AI_AVATAR_Y,
-                "conf/gameconfs/avatars/avatar2.json", 20, 2);
+                StaticConfFiles.aiAvatar, 20, 2);
 
        
         // Load 2 copies of cards into player1's and player2's decks
@@ -105,6 +105,7 @@ public class Initalize implements EventProcessor {
                 gs.player2.getHand().add(aiCard);
             }
         }
+        
         // Mark initialised, set up the health and mana in both player_1 and player_2 panels
         BasicCommands.setPlayer1Health(out, gs.player1);
         BasicCommands.setPlayer2Health(out, gs.player2);
@@ -126,7 +127,7 @@ public class Initalize implements EventProcessor {
         BasicCommands.setUnitHealth(out, avatar, hp);
         BasicCommands.setUnitAttack(out, avatar, atk);
 
-        // Authoritative stats
+        // Authoritative unit stats live in gs.unitHp / gs.unitAtk keyed by unitId.
         gs.unitHp.put(id, hp);
         gs.unitAtk.put(id, atk);
 
