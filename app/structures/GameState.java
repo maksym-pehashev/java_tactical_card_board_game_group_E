@@ -51,6 +51,8 @@ public class GameState {
 	public Map<Integer, Integer> unitAtk = new HashMap<>();
 	public Map<Integer, Boolean> canMove = new HashMap<>();
 	public Map<Integer, Boolean> canAttack = new HashMap<>();
+	public Map<Integer, Boolean> exhausted = new HashMap<>();
+	public Map<Integer, Boolean> summoningSickness = new HashMap<>();
 
 	// Card containers are present as lists only (logic handled by Xinyu/Yanfei)
 	public List<Card> humanDeck = new ArrayList<>();
@@ -82,5 +84,12 @@ public class GameState {
 	public void clearSelectionAndHighlights() {
 		clearSelection();
 		clearHighlights();
+	}
+// this method can check whether a unit can move or not.
+	public boolean canUnitMove(int unitId){
+		if (Boolean.TRUE.equals(summoningSickness.get(unitId))) return false;
+		if (Boolean.TRUE.equals(exhausted.get(unitId))) return false;
+		if (!Boolean.TRUE.equals(canMove.get(unitId))) return false;
+		return true;
 	}
 }

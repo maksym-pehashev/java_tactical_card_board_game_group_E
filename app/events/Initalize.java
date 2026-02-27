@@ -68,12 +68,13 @@ public class Initalize implements EventProcessor {
         }
 
         // Spawn avatars
+        // give human avatar and ai avatar a initial state then store states into gamestate
         gs.humanAvatar = spawnAvatar(out, gs, HUMAN_AVATAR_ID, HUMAN_AVATAR_X, HUMAN_AVATAR_Y,
                 "conf/gameconfs/avatars/avatar1.json", 20, 2);
-
+        
         gs.aiAvatar = spawnAvatar(out, gs, AI_AVATAR_ID, AI_AVATAR_X, AI_AVATAR_Y,
                 "conf/gameconfs/avatars/avatar2.json", 20, 2);
-        
+
        
         // Load 2 copies of cards into player1's and player2's decks
         List<Card> deck1 = OrderedCardLoader.getPlayer1Cards(2);
@@ -128,8 +129,12 @@ public class Initalize implements EventProcessor {
         // Authoritative stats
         gs.unitHp.put(id, hp);
         gs.unitAtk.put(id, atk);
+
+        // Action flags (avatars start ready)
         gs.canMove.put(id, true);
         gs.canAttack.put(id, true);
+        gs.exhausted.put(id, false);
+        gs.summoningSickness.put(id, false);
         return avatar;
     }
     
