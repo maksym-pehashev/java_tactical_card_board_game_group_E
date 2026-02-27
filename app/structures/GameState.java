@@ -1,5 +1,7 @@
 package structures;
 
+import static org.junit.Assert.fail;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -124,6 +126,14 @@ public class GameState {
             return false;
         }
     }
-
-
+// if unit already move, use this method can make this unit cannot move again during same turn
+// but it can still attack
+	public void onMoveDone(int unitId){
+		canMove.put(unitId, false);
+	}
+// if unit already attack, use this method can make this unit cannot move or attack again during same turn
+	public void onAttackDone(int unitId){
+		canAttack.put(unitId,false);
+		canMove.put(unitId, false);
+	}
 }	
