@@ -84,4 +84,20 @@ public class GameState {
 		clearSelection();
 		clearHighlights();
 	}
+	public boolean canUnitMove(int unitId){
+		UnitActionState state=this.unitActionStates.get(unitId);
+		if(state==null){
+			return false;
+		}
+		if(state.summoningSickness){
+			return false
+		}
+		if(state.exhausted){
+			return false;
+		}
+		if(!state.canMove){
+			return false;
+		}
+		return true;
+	}
 }
