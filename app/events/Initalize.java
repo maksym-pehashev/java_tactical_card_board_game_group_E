@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import akka.actor.ActorRef;
 import commands.BasicCommands;
 import structures.GameState;
+import structures.UnitActionState;
 import structures.basic.Board;
 import structures.basic.Card;
 import structures.basic.CardFactory;
@@ -68,12 +69,16 @@ public class Initalize implements EventProcessor {
         }
 
         // Spawn avatars
+        // give human avatar and ai avatar a initial state then store states into gamestate
         gs.humanAvatar = spawnAvatar(out, gs, HUMAN_AVATAR_ID, HUMAN_AVATAR_X, HUMAN_AVATAR_Y,
                 "conf/gameconfs/avatars/avatar1.json", 20, 2);
-
+        UnitActionState humanState=new UnitActionState();
+        gs.unitActionStates.put(gs.humanAvatar.getId(), humanState);
+        
         gs.aiAvatar = spawnAvatar(out, gs, AI_AVATAR_ID, AI_AVATAR_X, AI_AVATAR_Y,
                 "conf/gameconfs/avatars/avatar2.json", 20, 2);
-        
+        UnitActionState aiState=new UnitActionState();
+        gs.unitActionStates.put(gs.aiAvatar.getId(), aiState);  
        
         // Load 2 copies of cards into player1's and player2's decks
         List<Card> deck1 = OrderedCardLoader.getPlayer1Cards(2);
