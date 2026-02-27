@@ -136,4 +136,19 @@ public class GameState {
 		canAttack.put(unitId,false);
 		canMove.put(unitId, false);
 	}
+// can use this method to reset all units state
+	public void resetFlagsAtTurnStart() {
+        for (Integer unitId:canMove.keySet()) {
+            canMove.put(unitId, true);
+        }
+        for (Integer unitId: canAttack.keySet()) {
+            canAttack.put(unitId, true);
+        }
+        for (Integer unitId:summoningSickness.keySet()) {
+            summoningSickness.put(unitId, false);
+        }
+        for (Integer unitId:exhausted.keySet()) {
+            exhausted.put(unitId, false);
+        }
+	}
 }	
