@@ -85,45 +85,33 @@ public class GameState {
 		clearSelection();
 		clearHighlights();
 	}
-// this method can check whether a unit can move or not.
-	public boolean canUnitMove(int unitId){
+	// this method can check whether a unit can move or not.
+	public boolean canUnitMove(int unitId) {
 		if (Boolean.TRUE.equals(summoningSickness.get(unitId))) return false;
 		if (Boolean.TRUE.equals(exhausted.get(unitId))) return false;
-		if (!Boolean.TRUE.equals(canMove.get(unitId))) return false;
-		return true;
-	}
-// this method can check whter a unit can attack or not
-	public Boolean canUnitAttack(int unitId){
-		if(Boolean.TRUE.equals(summoningSickness.get(unitId)))return false;
-		if(Boolean.TRUE.equals(exhausted.get(unitId)))return false;
-		if(!Boolean.TRUE.equals(canAttack.get(unitId)))return false;
-		return true;
+		return Boolean.TRUE.equals(canMove.get(unitId));
 	}
 
-// this method can check whether a unit can be a valid target to attack\
-// this method check the target whether in range
-	public boolean isTargetValidAndInRange(Unit attacker, Unit target){
-		if(attacker==null || target==null || attacker.getId()==target.getId()){
-			return false;
-		}
-		int attackerX=attacker.getPosition().getTilex();
-		int attackerY=attacker.getPosition().getTiley();
-		int targetX=target.getPosition().getTilex();
-		int targetY=target.getPosition().getTiley();
-
-		boolean isXOk = false;
-        if (targetX >= attackerX - 1 && targetX <= attackerX + 1) {
-            isXOk = true;
+	// this method can check whether a unit can attack or not
+	public boolean canUnitAttack(int unitId) {
+		if (Boolean.TRUE.equals(summoningSickness.get(unitId))) return false;
+		if (Boolean.TRUE.equals(exhausted.get(unitId))) return false;
+		return Boolean.TRUE.equals(canAttack.get(unitId));
 	}
-	boolean isYOk = false;
-        if (targetY >= attackerY - 1 && targetY <= attackerY + 1) {
-            isYOk = true;}
-	if (isXOk == true && isYOk == true) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
+	// this method can check whether a unit can be a valid target to attack \ check the target whether in range
+	public boolean isTargetValidAndInRange(Unit attacker, Unit target) {
+		if (attacker == null || target == null) return false;
+		if (attacker.getId() == target.getId()) return false;
+		if (attacker.getPosition() == null || target.getPosition() == null) return false;
+
+		int ax = attacker.getPosition().getTilex();
+		int ay = attacker.getPosition().getTiley();
+		int tx = target.getPosition().getTilex();
+		int ty = target.getPosition().getTiley();
+
+		return Math.abs(tx - ax) <= 1 && Math.abs(ty - ay) <= 1;
+	}
 
 
 }	
