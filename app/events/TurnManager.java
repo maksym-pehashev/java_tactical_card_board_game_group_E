@@ -2,6 +2,7 @@ package events;
 
 import akka.actor.ActorRef;
 import structures.GameState;
+import commands.BasicCommands;
 
 /**
  * Only human turn start/end orchestration is implemented in this sprint.
@@ -19,7 +20,10 @@ public final class TurnManager {
         }
 
         gs.humanCurrentMana = gs.humanMaxMana;
-        // UI update will be wired once we plug in your existing BasicCommands call
+
+        // UI mana sync (BasicCommands reads from Player)
+        gs.player1.setMana(gs.humanCurrentMana);
+        BasicCommands.setPlayer1Mana(out, gs.player1);
     }
 
     public static void endHumanTurn(ActorRef out, GameState gs) {
