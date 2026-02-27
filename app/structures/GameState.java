@@ -51,6 +51,7 @@ public class GameState {
 	public Map<Integer, Integer> unitAtk = new HashMap<>();
 	public Map<Integer, Boolean> canMove = new HashMap<>();
 	public Map<Integer, Boolean> canAttack = new HashMap<>();
+	public Map<Integer, UnitActionState>unitActionStates=new HashMap<>();
 
 	// Card containers are present as lists only (logic handled by Xinyu/Yanfei)
 	public List<Card> humanDeck = new ArrayList<>();
