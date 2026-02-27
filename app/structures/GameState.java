@@ -92,4 +92,38 @@ public class GameState {
 		if (!Boolean.TRUE.equals(canMove.get(unitId))) return false;
 		return true;
 	}
-}
+// this method can check whter a unit can attack or not
+	public Boolean canUnitAttack(int unitId){
+		if(Boolean.TRUE.equals(summoningSickness.get(unitId)))return false;
+		if(Boolean.TRUE.equals(exhausted.get(unitId)))return false;
+		if(!Boolean.TRUE.equals(canAttack.get(unitId)))return false;
+		return true;
+	}
+
+// this method can check whether a unit can be a valid target to attack\
+// this method check the target whether in range
+	public boolean isTargetValidAndInRange(Unit attacker, Unit target){
+		if(attacker==null || target==null || attacker.getId()==target.getId()){
+			return false;
+		}
+		int attackerX=attacker.getPosition().getTilex();
+		int attackerY=attacker.getPosition().getTiley();
+		int targetX=target.getPosition().getTilex();
+		int targetY=target.getPosition().getTiley();
+
+		boolean isXOk = false;
+        if (targetX >= attackerX - 1 && targetX <= attackerX + 1) {
+            isXOk = true;
+	}
+	boolean isYOk = false;
+        if (targetY >= attackerY - 1 && targetY <= attackerY + 1) {
+            isYOk = true;}
+	if (isXOk == true && isYOk == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+}	
