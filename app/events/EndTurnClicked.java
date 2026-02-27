@@ -19,7 +19,7 @@ import structures.GameState;
 public class EndTurnClicked implements EventProcessor{
 
 	@Override
-	public void processEvent(ActorRef out, GameState gameState, JsonNode message) {
+ 	public void processEvent(ActorRef out, GameState gameState, JsonNode message) {
 		// only allow end-turn from the human side in this placeholder implementation
 		if (!gameState.humanTurn) {System.out.println("[EndTurnClicked] Human ended trun -> switching to AI(placeholder)");
 		// clear any multi-step interaction state so it doesn't carry across turns
@@ -28,6 +28,12 @@ public class EndTurnClicked implements EventProcessor{
 		gameState.humanTurn = false;
 		gameState.aiTurnPending = true;
 		}
-	}
+		// Only allow end turn during the human turn
+		if (gameState == null || gameState.gameOver) return;
+		if (!gameState.humanTurn) return;
+
+		System.out.println("[EndTurnClicked] Human ended turn -> handing off to TurnManager");
+		TurnManager.endHumanTurn(out, gameState);
+ 	}
 
 }
