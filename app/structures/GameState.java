@@ -84,6 +84,7 @@ public class GameState {
 		clearSelection();
 		clearHighlights();
 	}
+// this method can check whether a unit can move or not.
 	public boolean canUnitMove(int unitId){
 		UnitActionState state=this.unitActionStates.get(unitId);
 		if(state==null){
