@@ -1,7 +1,5 @@
 package structures;
 
-import static org.junit.Assert.fail;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -114,26 +112,17 @@ public class GameState {
 
 		return Math.abs(tx - ax) <= 1 && Math.abs(ty - ay) <= 1;
 	}
-	boolean isYOk = false;
-        if (targetY >= attackerY - 1 && targetY <= attackerY + 1) {
-            isYOk = true;}
-	if (isXOk == true && isYOk == true) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-// if unit already move, use this method can make this unit cannot move again during same turn
-// but it can still attack
+	// if unit already move, use this method can make this unit cannot move again during same turn
+	// but it can still attack
 	public void onMoveDone(int unitId){
 		canMove.put(unitId, false);
 	}
-// if unit already attack, use this method can make this unit cannot move or attack again during same turn
+	// if unit already attack, use this method can make this unit cannot move or attack again during same turn
 	public void onAttackDone(int unitId){
 		canAttack.put(unitId,false);
 		canMove.put(unitId, false);
 	}
-// can use this method to reset all units state
+	// can use this method to reset all units state
 	public void resetFlagsAtTurnStart() {
         for (Integer unitId:canMove.keySet()) {
             canMove.put(unitId, true);
