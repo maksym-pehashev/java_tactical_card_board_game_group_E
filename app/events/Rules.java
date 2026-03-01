@@ -30,11 +30,25 @@ public final class Rules {
 	}
 
 	public static ValidationResult validateMove(GameState gs, Unit unit, Tile targetTile) {
-		return ValidationResult.fail("validateMove not implemented");
+		if (gs == null || unit == null || targetTile == null) return ValidationResult.fail("null args");
+		if (unit.getPosition() == null) return ValidationResult.fail("unit has no position");
+
+		Tile from = gs.board.getTile(unit.getPosition().getTilex(), unit.getPosition().getTiley());
+		if (from == null) return ValidationResult.fail("from tile not found");
+
+		boolean ok = isValidMove(gs, unit.getId(), from, targetTile);
+		return ok ? ValidationResult.ok() : ValidationResult.fail("invalid move");
 	}
 
 	public static ValidationResult validateAttack(GameState gs, Unit attacker, Unit defender) {
-		return ValidationResult.fail("validateAttack not implemented");
+		if (gs == null || attacker == null || defender == null) return ValidationResult.fail("null args");
+		if (!gs.canUnitAttack(attacker.getId())) return ValidationResult.fail("attacker cannot attack");
+		if (!gs.isTargetValidAndInRange(attacker, defender)) return ValidationResult.fail("out of range");
+
+		boolean sameSide = isHumanUnit(gs, attacker) == isHumanUnit(gs, defender);
+		if (sameSide) return ValidationResult.fail("friendly target");
+
+		return ValidationResult.ok();
 	}
 
 	public static ValidationResult validateSummon(GameState gs, Card card, Tile targetTile) {
@@ -150,9 +164,57 @@ public final class Rules {
 		return true;
 	}
 
+	public static List<Unit> getValidAttackTargets(GameState gs, int unitId) {
+		if (gs == null || gs.board == null) return Collections.emptyList();
+		if (!gs.canUnitAttack(unitId)) return Collections.emptyList();
+
+		Unit attacker = findUnitById(gs, unitId);
+		if (attacker == null || attacker.getPosition() == null) return Collections.emptyList();
+
+		boolean attackerIsHuman = isHumanUnit(gs, attacker);
+
+		int ax = attacker.getPosition().getTilex();
+		int ay = attacker.getPosition().getTiley();
+
+		java.util.ArrayList<Unit> targets = new java.util.ArrayList<>();
+
+		// melee range: 1 tile around (including diagonal)
+		for (int dx = -1; dx <= 1; dx++) {
+			for (int dy = -1; dy <= 1; dy++) {
+				if (dx == 0 && dy == 0) continue;
+
+				int nx = ax + dx;
+				int ny = ay + dy;
+
+				if (!gs.board.inBounds(nx, ny)) continue;
+
+				Unit maybe = gs.board.getUnitAt(nx, ny);
+				if (maybe == null) continue;
+				if (maybe.getId() == unitId) continue;
+
+				// enemy-only
+				boolean targetIsHuman = isHumanUnit(gs, maybe);
+				if (attackerIsHuman == targetIsHuman) continue;
+
+				targets.add(maybe);
+			}
+		}
+
+		return targets;
+	}
+
+	// ---------- helpers (private) ----------
 	private static boolean isAvatarUnit(GameState gs, int unitId) {
 		return (gs.humanAvatar != null && gs.humanAvatar.getId() == unitId)
 			|| (gs.aiAvatar != null && gs.aiAvatar.getId() == unitId);
+	}
+
+	private static boolean isHumanUnit(GameState gs, Unit u) {
+		if (gs == null || u == null) return false;
+		int id = u.getId();
+		if (gs.humanAvatar != null && gs.humanAvatar.getId() == id) return true;
+		for (Unit hu : gs.humanUnits) if (hu.getId() == id) return true;
+		return false;
 	}
 
 	private static Unit findUnitById(GameState gs, int id) {
@@ -163,9 +225,5 @@ public final class Rules {
 		for (Unit u : gs.aiUnits) if (u.getId() == id) return u;
 
 		return null;
-	}
-
-	public static List<Unit> getValidAttackTargets(GameState gs, int unitId) {
-		return Collections.emptyList();
 	}
 }
