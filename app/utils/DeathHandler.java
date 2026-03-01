@@ -40,7 +40,14 @@ public class DeathHandler {
 
         System.out.println("Unit " + deadUnit.getId() + " successfully removed from the game.");
         
-        // TODO: Avatar death check (Game Over condition SC#28/#29)
+        // --- Avatar death check (Game Over condition SC#28/#29) ---
+        if (gs.humanAvatar != null && deadUnit.getId() == gs.humanAvatar.getId()) {
+            System.out.println("GAME OVER: Human Avatar defeated. AI Wins!");
+            BasicCommands.addPlayer1Notification(out, "Game Over - Defeat!", 10000);
+        } else if (gs.aiAvatar != null && deadUnit.getId() == gs.aiAvatar.getId()) {
+            System.out.println("GAME OVER: AI Avatar defeated. Human Wins!");
+            BasicCommands.addPlayer1Notification(out, "Game Over - Victory!", 10000);
+        }
     }
 
     // Utility method to keep code clean
