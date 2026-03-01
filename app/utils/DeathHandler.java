@@ -30,6 +30,12 @@ public class DeathHandler {
         BasicCommands.deleteUnit(out, deadUnit);
         sleep(200);
 
+        // SC#24: Clear selection if the dying unit is currently selected
+        if (gs.selectedUnit != null && gs.selectedUnit.getId() == deadUnit.getId()) {
+            gs.selectedUnit = null; 
+            System.out.println("Selection cleared because the selected unit died.");
+        }
+
         // 3. Remove the unit from the back-end GameState lists
         gs.humanUnits.remove(deadUnit);
         gs.aiUnits.remove(deadUnit);
@@ -53,5 +59,20 @@ public class DeathHandler {
     // Utility method to keep code clean
     private static void sleep(int ms) {
         try { Thread.sleep(ms); } catch (InterruptedException e) { e.printStackTrace(); }
+    }
+    
+    /**
+     * SC#28/#29: Checks if a player has lost due to an empty deck during a required draw.
+     * @param isHuman true if checking the human player, false for AI
+     * @param out ActorRef to send commands to the front-end
+     */
+    public static void checkDeckEmptyDefeat(boolean isHuman, ActorRef out) {
+        if (isHuman) {
+            System.out.println("GAME OVER: Human player's deck is empty. AI Wins!");
+            BasicCommands.addPlayer1Notification(out, "Game Over - Defeat! (Out of cards)", 10000);
+        } else {
+            System.out.println("GAME OVER: AI player's deck is empty. Human Wins!");
+            BasicCommands.addPlayer1Notification(out, "Game Over - Victory! (AI out of cards)", 10000);
+        }
     }
 }
