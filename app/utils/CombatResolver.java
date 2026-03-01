@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Core class to handle combat logic (SC#17 & #18).
+ * Core class to handle combat logic.
  */
 public class CombatResolver {
 
@@ -47,7 +47,7 @@ public class CombatResolver {
         sleep(500); 
         BasicCommands.setUnitHealth(out, defender, newDefenderHp);
         
-        // --- Counter-Attack Logic (SC#18) ---
+        // --- Counter-Attack Logic ---
         // Only trigger counter-attack if defender survives
         if (newDefenderHp > 0) {
             // Check if attacker is within defender's attack range
@@ -55,7 +55,7 @@ public class CombatResolver {
                 System.out.println("Unit " + defenderId + " survives and counter-attacks!");
                 
                 int defenderAtk = gs.unitAtk.getOrDefault(defenderId, 0);
-                int currentAttackerHp = gs.unitHp.getOrDefault(attackerId, 0);
+                currentAttackerHp = gs.unitHp.getOrDefault(attackerId, 0);
                 int newAttackerHp = Math.max(0, currentAttackerHp - defenderAtk);
                 
                 gs.unitHp.put(attackerId, newAttackerHp); 

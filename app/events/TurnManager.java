@@ -34,7 +34,7 @@ public final class TurnManager {
         gs.clearSelectionAndHighlights();
 
         // Integration points 
-        invokeEndTurnDraw(out, gs);      // SC#26 (Chunying)
+        invokeEndTurnDraw(out, gs);
         invokeWinLossCheck(out, gs);     // SC#28/#29 (Xinyu)
 
         // Switch to AI (no AI logic in Sprint 2)
@@ -43,13 +43,12 @@ public final class TurnManager {
     }
 
     public static void invokeEndTurnDraw(ActorRef out, GameState gs) {
-        // SC#26 (Chunying)
         if (gs == null) return;
         if (gs.gameOver) return;
         if (gs.player1 == null) return;
         //Only apply end-of-turn draw to the human player for now (human-only render)
         if (gs.player1.getHand().size() >= structures.basic.Hand.MAX_SIZE) return;
-        //if deck is empty, defeat(#29)
+        //if deck is empty, defeat
         Card drawn = gs.player1.getDeck().draw();
         if (drawn == null) {
             gs.gameOver = true;

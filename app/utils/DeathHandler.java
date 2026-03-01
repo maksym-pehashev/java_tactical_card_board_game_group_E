@@ -7,7 +7,7 @@ import commands.BasicCommands;
 import akka.actor.ActorRef;
 
 /**
- * Core class to handle unit death and board cleanup (SC#24).
+ * Core class to handle unit death and board cleanup.
  */
 public class DeathHandler {
 
@@ -40,7 +40,7 @@ public class DeathHandler {
 
         System.out.println("Unit " + deadUnit.getId() + " successfully removed from the game.");
         
-        // --- Avatar death check (Game Over condition SC#28/#29) ---
+        // --- Avatar death check (Game Over condition) ---
         if (gs.humanAvatar != null && deadUnit.getId() == gs.humanAvatar.getId()) {
             System.out.println("GAME OVER: Human Avatar defeated. AI Wins!");
             BasicCommands.addPlayer1Notification(out, "Game Over - Defeat!", 10000);

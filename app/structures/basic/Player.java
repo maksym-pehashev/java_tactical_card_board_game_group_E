@@ -1,8 +1,5 @@
 package structures.basic;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * A basic representation of of the Player. A player
  * has health and mana.
