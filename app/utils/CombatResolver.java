@@ -19,6 +19,20 @@ public class CombatResolver {
 
         if (attacker == null || defender == null) return; // Safety check
 
+        // --- Edge Case Checks ---
+        // 1. Prevent a unit from attacking itself
+        if (attackerId == defenderId) {
+            System.out.println("Combat Cancelled: A unit cannot attack itself!");
+            return;
+        }
+        
+        // 2. Prevent a dead unit from initiating an attack
+        int currentAttackerHp = gs.unitHp.getOrDefault(attackerId, 0);
+        if (currentAttackerHp <= 0) {
+            System.out.println("Combat Cancelled: Attacker is already dead!");
+            return;
+        }
+        
         // Resolve combat damage
         int attackerAtk = gs.unitAtk.getOrDefault(attackerId, 0);
         int currentDefenderHp = gs.unitHp.getOrDefault(defenderId, 0);
