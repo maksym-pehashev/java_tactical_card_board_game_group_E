@@ -15,6 +15,7 @@ public class CombatResolver {
         Unit attacker = findUnitById(attackerId, gs);
         Unit defender = findUnitById(defenderId, gs);
 
+        if (!gs.humanTurn) return;
         if (gs == null || out == null) return;
         if (gs.gameOver) return;
         if (attacker == null || defender == null) return;
