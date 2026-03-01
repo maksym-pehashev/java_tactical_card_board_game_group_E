@@ -63,14 +63,16 @@ public class DeathHandler {
             gs.clearSelectionAndHighlights();
         }
 
-        // 6) Avatar death => game over authoritative
+        // --- Avatar death check (Game Over condition) ---
         if (gs.humanAvatar != null && id == gs.humanAvatar.getId()) {
             gs.gameOver = true;
-            gs.winner = "ai";
+            gs.winner = GameState.WINNER_AI;
+            System.out.println("GAME OVER: Human Avatar defeated. AI Wins!");
             BasicCommands.addPlayer1Notification(out, "Game Over - Defeat!", 10000);
         } else if (gs.aiAvatar != null && id == gs.aiAvatar.getId()) {
             gs.gameOver = true;
-            gs.winner = "human";
+            gs.winner = GameState.WINNER_HUMAN;
+            System.out.println("GAME OVER: AI Avatar defeated. Human Wins!");
             BasicCommands.addPlayer1Notification(out, "Game Over - Victory!", 10000);
         }
     }

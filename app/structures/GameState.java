@@ -12,13 +12,15 @@ import structures.basic.Tile;
 import structures.basic.Unit;
 
 public class GameState {
-
-	
 	public boolean gameInitalised = false;
 	
-
 	public boolean gameOver = false;
 	public String winner = null;   // "human" / "ai" / null
+
+	// Winner values (authoritative)
+	public static final String WINNER_HUMAN = "human";
+	public static final String WINNER_AI = "ai";
+	
 	public boolean humanTurn = true;
 	public boolean aiTurnPending = false;  //AI placeholder: run once on next heartbeat
 

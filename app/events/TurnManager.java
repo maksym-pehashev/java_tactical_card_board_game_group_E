@@ -43,25 +43,26 @@ public final class TurnManager {
     }
 
     public static void invokeEndTurnDraw(ActorRef out, GameState gs) {
-        if (gs == null) return;
+        if (gs == null || out == null) return;
         if (gs.gameOver) return;
         if (gs.player1 == null) return;
-        //Only apply end-of-turn draw to the human player for now (human-only render)
+
+        // Only apply end-of-turn draw to the human player for now (human-only render)
         if (gs.player1.getHand().size() >= structures.basic.Hand.MAX_SIZE) return;
-        //if deck is empty, defeat
+
+        // If deck is empty -> defeat
         Card drawn = gs.player1.getDeck().draw();
         if (drawn == null) {
             gs.gameOver = true;
-            gs.winner = "player2";
-            BasicCommands.addPlayer1Notification(out, "Sorry, your deck is empty. You lose the game.", 2);
+            gs.winner = GameState.WINNER_AI;
+            BasicCommands.addPlayer1Notification(out, "Game Over - Defeat (Deck empty)!", 10000);
             return;
         }
 
-        // Add to hand (should succeed because we checked size < 6)
         boolean added = gs.player1.getHand().add(drawn);
         if (!added) return;
-        // Render the card into the next free slot (1..6)
-        int handPosition = gs.player1.getHand().size();
+
+        int handPosition = gs.player1.getHand().size(); // 1..6
         BasicCommands.drawCard(out, drawn, handPosition, 0);
     }
 
