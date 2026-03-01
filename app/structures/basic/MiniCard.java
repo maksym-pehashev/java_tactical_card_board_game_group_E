@@ -60,9 +60,4 @@ public class MiniCard {
 	public void setIndex(int index) {
 		this.index = index;
 	}
-	
-	
-	
-	
-	
 }
