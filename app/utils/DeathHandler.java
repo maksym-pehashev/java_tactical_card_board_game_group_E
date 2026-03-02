@@ -81,4 +81,19 @@ public class DeathHandler {
     private static void sleep(int ms) {
         try { Thread.sleep(ms); } catch (InterruptedException e) { e.printStackTrace(); }
     }
+    
+    /**
+     * SC#28/#29: Checks if a player has lost due to an empty deck during a required draw.
+     * @param isHuman true if checking the human player, false for AI
+     * @param out ActorRef to send commands to the front-end
+     */
+    public static void checkDeckEmptyDefeat(boolean isHuman, ActorRef out) {
+        if (isHuman) {
+            System.out.println("GAME OVER: Human player's deck is empty. AI Wins!");
+            BasicCommands.addPlayer1Notification(out, "Game Over - Defeat! (Out of cards)", 10000);
+        } else {
+            System.out.println("GAME OVER: AI player's deck is empty. Human Wins!");
+            BasicCommands.addPlayer1Notification(out, "Game Over - Victory! (AI out of cards)", 10000);
+        }
+    }
 }

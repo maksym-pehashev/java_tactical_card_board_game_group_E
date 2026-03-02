@@ -34,9 +34,8 @@ public final class TurnManager {
         gs.clearSelectionAndHighlights();
 
         // Integration points 
-        invokeEndTurnDraw(out, gs);
-        invokeWinLossCheck(out, gs);     // SC#28/#29 (Xinyu)
-
+        invokeEndTurnDraw(out, gs);      // SC#26 (Chunying)
+        invokeWinLossCheck(out, gs);     
         // Switch to AI (no AI logic in Sprint 2)
         gs.humanTurn = false;
         gs.aiTurnPending = true;
@@ -67,7 +66,25 @@ public final class TurnManager {
     }
 
     private static void invokeWinLossCheck(ActorRef out, GameState gs) {
-        // SC#28/#29 (Xinyu)
+        // SC#28/#29: Handle game-over logic when an Avatar is defeated
+        
+        // 1. Check if Human Avatar is defeated
+        if (gs.humanAvatar != null) {
+            Integer humanHp = gs.unitHp.get(gs.humanAvatar.getId());
+            if (humanHp != null && humanHp <= 0) {
+                System.out.println("GAME OVER: Human Avatar defeated. AI Wins!");
+                BasicCommands.addPlayer1Notification(out, "Game Over - Defeat!", 10000);
+            }
+        }
+        
+        // 2. Check if AI Avatar is defeated
+        if (gs.aiAvatar != null) {
+            Integer aiHp = gs.unitHp.get(gs.aiAvatar.getId());
+            if (aiHp != null && aiHp <= 0) {
+                System.out.println("GAME OVER: AI Avatar defeated. Human Wins!");
+                BasicCommands.addPlayer1Notification(out, "Game Over - Victory!", 10000);
+            }
+        }
     }
 
 }
