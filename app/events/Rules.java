@@ -33,7 +33,9 @@ public final class Rules {
 		if (gs == null || unit == null || targetTile == null) return ValidationResult.fail("null args");
 		if (unit.getPosition() == null) return ValidationResult.fail("unit has no position");
 
-		Tile from = gs.board.getTile(unit.getPosition().getTilex(), unit.getPosition().getTiley());
+		int ux = unit.getPosition().getTilex();
+		int uy = unit.getPosition().getTiley();
+		Tile from = gs.board.getTile(ux, uy);
 		if (from == null) return ValidationResult.fail("from tile not found");
 
 		boolean ok = isValidMove(gs, unit.getId(), from, targetTile);
@@ -209,7 +211,7 @@ public final class Rules {
 			|| (gs.aiAvatar != null && gs.aiAvatar.getId() == unitId);
 	}
 
-	private static boolean isHumanUnit(GameState gs, Unit u) {
+	public static boolean isHumanUnit(GameState gs, Unit u) {
 		if (gs == null || u == null) return false;
 		int id = u.getId();
 		if (gs.humanAvatar != null && gs.humanAvatar.getId() == id) return true;

@@ -73,6 +73,13 @@ public class CombatResolver {
                 DeathHandler.handleDeath(attacker, gs, out);
             }
         }
+        // Post-combat idle animations (only if game not over, to avoid animation conflicts with endgame)
+        if (!gs.gameOver) {
+        BasicCommands.playUnitAnimation(out, attacker, UnitAnimationType.idle);
+        if (gs.unitHp.getOrDefault(defender.getId(), 1) > 0) {
+            BasicCommands.playUnitAnimation(out, defender, UnitAnimationType.idle);
+        }
+    }
     }
 
     private static Unit findUnitById(int id, GameState gs) {
