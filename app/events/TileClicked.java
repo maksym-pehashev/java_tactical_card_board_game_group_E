@@ -44,25 +44,10 @@ public class TileClicked implements EventProcessor{
 		if (clickedTile == null) return;
 
 		Unit occupant = gs.board.getUnitAt(tilex, tiley);
-
-		// 1) Select friendly unit + highlight movement
+		
+		// If friendly unit on clicked tile -> delegate selection/highlights to UnitClicked
 		if (occupant != null && Rules.isHumanUnit(gs, occupant)) {
-			clearHighlightsUI(out, gs);
-
-			gs.selectedUnit = occupant;
-
-		for (Tile t : Rules.getValidMoveTiles(gs, occupant.getId())) {
-			BasicCommands.drawTile(out, t, 1);
-			gs.highlightedTiles.add(t);
-		}
-		for (Unit enemy : Rules.getValidAttackTargets(gs, occupant.getId())) {
-			Tile enemyTile = gs.board.getTile(
-				enemy.getPosition().getTilex(),
-				enemy.getPosition().getTiley()
-			);
-			BasicCommands.drawTile(out, enemyTile, 2);
-			gs.highlightedTiles.add(enemyTile);
-		}
+			UnitClicked.onUnitSelected(out, gs, occupant);
 			return;
 		}
 
