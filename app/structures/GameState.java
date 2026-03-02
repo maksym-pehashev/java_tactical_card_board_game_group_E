@@ -12,13 +12,15 @@ import structures.basic.Tile;
 import structures.basic.Unit;
 
 public class GameState {
-
-	
 	public boolean gameInitalised = false;
 	
-
 	public boolean gameOver = false;
 	public String winner = null;   // "human" / "ai" / null
+
+	// Winner values (authoritative)
+	public static final String WINNER_HUMAN = "human";
+	public static final String WINNER_AI = "ai";
+	
 	public boolean humanTurn = true;
 	public boolean aiTurnPending = false;  //AI placeholder: run once on next heartbeat
 
@@ -112,6 +114,29 @@ public class GameState {
 
 		return Math.abs(tx - ax) <= 1 && Math.abs(ty - ay) <= 1;
 	}
-
-
+	// if unit already move, use this method can make this unit cannot move again during same turn
+	// but it can still attack
+	public void onMoveDone(int unitId){
+		canMove.put(unitId, false);
+	}
+	// if unit already attack, use this method can make this unit cannot move or attack again during same turn
+	public void onAttackDone(int unitId){
+		canAttack.put(unitId,false);
+		canMove.put(unitId, false);
+	}
+	// can use this method to reset all units state
+	public void resetFlagsAtTurnStart() {
+        for (Integer unitId:canMove.keySet()) {
+            canMove.put(unitId, true);
+        }
+        for (Integer unitId: canAttack.keySet()) {
+            canAttack.put(unitId, true);
+        }
+        for (Integer unitId:summoningSickness.keySet()) {
+            summoningSickness.put(unitId, false);
+        }
+        for (Integer unitId:exhausted.keySet()) {
+            exhausted.put(unitId, false);
+        }
+	}
 }	
